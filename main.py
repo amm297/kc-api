@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 from flask_restful import Api
 
 from controller.appartment import ApartmentController
@@ -9,11 +10,12 @@ from hello import Hello
 # If `entrypoint` is not defined in app.yaml, App Engine will look for an app
 # called `app` in `main.py`.
 app = Flask(__name__)
+CORS(app)
 api = Api(app)
 
 api.add_resource(Hello, '/hello/<name>')
 api.add_resource(LocationController, '/locations')
-api.add_resource(ApartmentController, '/apartments/<neighborhood>')
+api.add_resource(ApartmentController, '/apartments/<neighborhood>/<pax>')
 api.add_resource(RecommenderRestaurantController, '/recommender/restaurant')
 
 if __name__ == '__main__':
