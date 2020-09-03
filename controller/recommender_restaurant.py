@@ -34,7 +34,7 @@ class RecommenderRestaurantController(Resource):
     def __recommend_restaurants(self, cluster_location, cluster_review, lat, lng):
         db = DBConnection()
         results = db.execute_query(
-            f'SELECT title, address, ( 2 * asin(sqrt(cos(radians({lat})) * cos(radians(r.latitude)) * pow(sin(radians(({lng} - r.longitude) / 2)), 2) + pow(sin(radians(({lat} - r.latitude) / 2)), 2))) *6371) AS distance FROM restaurants r WHERE  clusterLocation = \'{cluster_location}\' AND clusterRate = \'{cluster_review}\' ORDER BY distance ASC LIMIT {self.MAX_RESULTS}')
+            f'SELECT title, address, type, rating, review, latitude, longitude, price, description, tags, ( 2 * asin(sqrt(cos(radians({lat})) * cos(radians(r.latitude)) * pow(sin(radians(({lng} - r.longitude) / 2)), 2) + pow(sin(radians(({lat} - r.latitude) / 2)), 2))) *6371) AS distance FROM restaurants r WHERE  clusterLocation = \'{cluster_location}\' AND clusterRate = \'{cluster_review}\' ORDER BY distance ASC LIMIT {self.MAX_RESULTS}')
 
         if results:
             restaurants = [Restaurant(restaurant).to_json() for restaurant in results]
