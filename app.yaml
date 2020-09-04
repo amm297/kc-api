@@ -2,3 +2,4 @@ runtime: python38
 
 env_variables:
   TEST: 'some value here'
+  TEST_value: 'some value here'
