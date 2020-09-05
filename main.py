@@ -1,25 +1,22 @@
 import os
-import pymysql
 
 from flask import Flask
 from flask_restful import Api
+from flask_cors import CORS
 
 from controller.appartment import ApartmentController
 from controller.location import LocationController
 from controller.recommender_restaurant import RecommenderRestaurantController
-
 from hello import Hello
 
-db_user = os.environ.get('CLOUD_SQL_USERNAME')
-db_password = os.environ.get('CLOUD_SQL_PASSWORD')
-db_name = os.environ.get('CLOUD_SQL_DATABASE_NAME')
-db_connection_name = os.environ.get('CLOUD_SQL_CONNECTION_NAME')
-
-
-# If `entrypoint` is not defined in app.yaml, App Engine will look for an app
-# called `app` in `main.py`.
 app = Flask(__name__)
+CORS(app)
 api = Api(app)
+
+db_user = os.environ.get('DB_USER')
+db_password = os.environ.get('DB_PASS')
+db_name = os.environ.get('DB_NAME')
+db_connection_name = os.environ.get('CLOUD_SQL_CONNECTION_NAME')
 
 @app.route('/')
 
@@ -47,15 +44,12 @@ def main():
     cnx.close()
 
     return str(current_msg)
-
-api.add_resource(Hello, 'Holiiiiiiiiii')
+   
+api.add_resource(Hello, '/hello/Holi')
 api.add_resource(LocationController, '/locations')
-api.add_resource(ApartmentController, '/apartments/<neighborhood>')
+api.add_resource(ApartmentController, '/apartments/<neighborhood>/<pax>')
 api.add_resource(RecommenderRestaurantController, '/recommender/restaurant')
 
 if __name__ == '__main__':
-    # This is used when running locally only. When deploying to Google App
-    # Engine, a webserver process such as Gunicorn will serve the app. This
-    # can be configured by adding an `entrypoint` to app.yaml.
     app.run(host='127.0.0.1', port=8080, debug=True)
 # [END gae_python37_app]
