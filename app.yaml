@@ -1,0 +1,6 @@
+runtime: python38
+env_variables:
+  CLOUD_SQL_USERNAME: bdv
+  CLOUD_SQL_PASSWORD: root
+  CLOUD_SQL_DATABASE_NAME: bdv
+  CLOUD_SQL_CONNECTION_NAME: keepcoding-bootcamp:europe-west3:storage-appengine
