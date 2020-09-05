@@ -1,4 +1,5 @@
 import os
+import pymysql
 
 from flask import Flask
 from flask_restful import Api
