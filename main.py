@@ -5,6 +5,7 @@ from flask_restful import Api
 from controller.appartment import ApartmentController
 from controller.location import LocationController
 from controller.recommender_restaurant import RecommenderRestaurantController
+from controller.tags import TagController
 from hello import Hello
 
 # If `entrypoint` is not defined in app.yaml, App Engine will look for an app
@@ -15,6 +16,7 @@ api = Api(app)
 
 api.add_resource(Hello, '/hello/<name>')
 api.add_resource(LocationController, '/locations')
+api.add_resource(TagController, '/tags')
 api.add_resource(ApartmentController, '/apartments/<neighborhood>/<pax>')
 api.add_resource(RecommenderRestaurantController, '/recommender/restaurant')
 
