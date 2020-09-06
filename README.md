@@ -1,6 +1,6 @@
 # kc-api
 
-Este repositorio contiene todos los archivos necesario para levantar el app engine de Viajes 3B en Google Cloud. 
+Este repositorio contiene todos los archivos necesario para levantar un app engine en Google Cloud que servirá de backend a la web de viajes 3B. 
 
 - app.yaml: contiene los parámetros de configuración.
 - requirements.txt: contiene las librerías y versiones específicas necesarias para hacer funcionar el main.py
