@@ -34,6 +34,6 @@ class RecommenderActivities():
         db = DBConnection()
         print('connected')
         results = db.execute_query(
-            f'SELECT title, meeting_point, latitude, longitude, rate, review, description, time, language, cancellation, price, ( 2 * asin(sqrt(cos(radians({lat})) * cos(radians(a.latitude)) * pow(sin(radians(({lng} - a.longitude) / 2)), 2) + pow(sin(radians(({lat} - a.latitude) / 2)), 2))) *6371) AS distance FROM activities a WHERE  cluster_location = \'{cluster_location}\' AND cluster_rate = \'{cluster_review}\' ORDER BY distance ASC LIMIT {self.MAX_RESULTS}')
+            f'SELECT title, meeting_point, latitude, longitude, rating, review, description, time, language, cancellation, price, ( 2 * asin(sqrt(cos(radians({lat})) * cos(radians(a.latitude)) * pow(sin(radians(({lng} - a.longitude) / 2)), 2) + pow(sin(radians(({lat} - a.latitude) / 2)), 2))) *6371) AS distance FROM activities a WHERE  cluster_location = \'{cluster_location}\' AND cluster_rate = \'{cluster_review}\' ORDER BY distance ASC LIMIT {self.MAX_RESULTS}')
 
         return {"activities": results} if results else {}
