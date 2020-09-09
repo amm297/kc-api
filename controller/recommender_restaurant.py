@@ -11,23 +11,23 @@ class RecommenderRestaurant():
 
     def __init__(self, max_results):
         self.MAX_RESULTS = max_results
-        self.rlf = download_file('models/kmeans_coords.pkl') if os.getenv("LOCAL",
-                                                                          False) else 'models/kmeans_coords.pkl'
-        self.recommender_location = pickle.load(open(self.rlf, "rb"))
+        self.rlf = download_file('models/restaurant_location_recommender.pkl') if os.getenv("LOCAL",
+                                                                                            False) else 'models/restaurant_location_recommender.pkl'
+        self.recommender_location = pickle.load(open(self.rlf, "rb"), encoding="latin1")
         print('location recommender loaded')
 
-        self.rrf = download_file('models/kmeans_review.pkl') if os.getenv("LOCAL",
-                                                                          False) else 'models/kmeans_review.pkl'
-        self.recommender_review = pickle.load(open(self.rrf, "rb"))
+        self.rrf = download_file('models/restaurant_rates_recommender.pkl') if os.getenv("LOCAL",
+                                                                                         False) else 'models/restaurant_rates_recommender.pkl'
+        self.recommender_review = pickle.load(open(self.rrf, "rb"), encoding="latin1")
         print("rate recommender loaded")
 
-        self.rtf = download_file('models/kmeans_tags.pkl') if os.getenv("LOCAL",
-                                                                        False) else 'models/kmeans_tags.pkl'
-        self.recommender_tags = pickle.load(open(self.rtf, "rb"))
+        self.rtf = download_file('models/restaurant_tags_recommender.pkl') if os.getenv("LOCAL",
+                                                                                        False) else 'models/restaurant_tags_recommender.pkl'
+        self.recommender_tags = pickle.load(open(self.rtf, "rb"), encoding="latin1")
 
         self.rtvf = download_file('models/kmeans_tags_vectorizer.pkl') if os.getenv("LOCAL",
                                                                                     False) else 'models/kmeans_tags_vectorizer.pkl'
-        self.recommender_tags_vectorizer = pickle.load(open(self.rtvf, "rb"))
+        self.recommender_tags_vectorizer = pickle.load(open(self.rtvf, "rb"), encoding="latin1")
         print("rate recommender loaded")
 
     def recommend(self, lat, lng, review, tags):
