@@ -25,8 +25,8 @@ class RecommenderRestaurant():
                                                                                         False) else 'models/restaurant_tags_recommender.pkl'
         self.recommender_tags = pickle.load(open(self.rtf, "rb"), encoding="latin1")
 
-        self.rtvf = download_file('models/kmeans_tags_vectorizer.pkl') if os.getenv("LOCAL",
-                                                                                    False) else 'models/kmeans_tags_vectorizer.pkl'
+        self.rtvf = download_file('models/restaurant_tags_vectorizer_recommender.pkl') if os.getenv("LOCAL",
+                                                                                                    False) else 'models/restaurant_tags_vectorizer_recommender.pkl'
         self.recommender_tags_vectorizer = pickle.load(open(self.rtvf, "rb"), encoding="latin1")
         print("rate recommender loaded")
 
@@ -46,13 +46,8 @@ class RecommenderRestaurant():
     def __recommend_restaurants(self, cluster_location, cluster_review, cluster_tags, lat, lng):
         db = DBConnection()
         print('connected')
+        cluster_text = " AND cluster_tags=" + str(cluster_tags) + " " if cluster_tags else ''
         results = db.execute_query(
-            f'SELECT title, address, type, rating, reviews as review, latitude, longitude, price, description, tags, ( 2 * asin(sqrt(cos(radians({lat})) * cos(radians(r.latitude)) * pow(sin(radians(({lng} - r.longitude) / 2)), 2) + pow(sin(radians(({lat} - r.latitude) / 2)), 2))) *6371) AS distance FROM restaurants r WHERE  cluster_location = \'{cluster_location}\' AND cluster_rate = \'{cluster_review}\' {self.__has_cluster_tag(cluster_tags)} ORDER BY distance DESC LIMIT {self.MAX_RESULTS}')
+            f'SELECT title, address, type, rating, reviews as review, latitude, longitude, price, description, tags, ( 2 * asin(sqrt(cos(radians({lat})) * cos(radians(r.latitude)) * pow(sin(radians(({lng} - r.longitude) / 2)), 2) + pow(sin(radians(({lat} - r.latitude) / 2)), 2))) *6371) AS distance FROM restaurants r WHERE  cluster_location = \'{cluster_location}\' AND cluster_rate = \'{cluster_review}\' {cluster_text} ORDER BY distance DESC LIMIT {self.MAX_RESULTS}')
 
         return {"restaurants": results} if results else {}
-
-    def __has_cluster_tag(self, cluster_tags):
-        if cluster_tags:
-            " AND cluster_tags= \'" + cluster_tags + "\' "
-        else:
-            return ''
